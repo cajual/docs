@@ -1,9 +1,3 @@
-Based on best practices from tech companies, here’s an expanded **Prioritization Rubric** for your SRE CoDev Council, with detailed explanations for each criterion, scoring guidelines, team involvement, and voting processes.
-
----
-
-### **13.1 Expanded Prioritization Framework/Rubric**
-
 #### **Criteria and Definitions:**
 
 1. **Business Value:**  
@@ -82,6 +76,3 @@ Some criteria may be given higher weight based on organizational focus. Example 
 - **Amazon:** Focuses heavily on business value and resource efficiency, often using "Working Backwards" to prioritize customer outcomes.  
 - **Spotify:** Employs squad-level input to ensure practical resource alignment before decisions are made.
 
----
-
-This expanded rubric balances clarity, transparency, and objectivity, ensuring the SRE CoDev Council can make well-informed and strategic decisions. Would you like me to integrate this into your document or refine specific sections further?
