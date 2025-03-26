@@ -1,0 +1,13 @@
+This proposal outlines an intern project focused on developing an interactive Slack bot to integrate the Vitality Application's health insights directly into team Slack channels. The project addresses the current gap in Slack visibility, as Vitality primarily relies on a web-based UI and traditional alert integrations, while engineering teams heavily utilize Slack for communication. The core problem lies in the inability to receive tailored, contextualized alerts within Slack, leading to potential delays in issue resolution and overwhelming alert noise. The objectives of this project are to create a Slack bot that enables bidirectional interaction, allowing users to subscribe to specific entities, configure alert preferences based on level and verbosity, and receive proactive recommendations based on Vitality's data aggregation. Additional features include the ability to mute alerts, list current subscriptions, and access help commands. The impact of this project will be enterprise-wide, empowering users with real-time, customizable health insights directly within their workflow. This will lead to improved response times, enhanced proactive monitoring, reduced alert noise, and increased efficiency, ultimately enabling teams to better manage and optimize their application health. Vitality's unique data aggregation and metric correlation will provide pre-mortem insights, empowering teams to mitigate issues before they escalate, significantly enhancing the platform's value and accessibility.
+
+Functional Slack Bot Integration (MVP): A working bot that can be invited to Slack channels and receives alerts.
+Webhook Integration: Successful parsing and display of JSON payloads from the Vitality Application within Slack.
+Basic Subscription Functionality: Implementation of the slash command to allow users to subscribe to all critical alerts.
+Persistent Data Store: A functional data store to save user subscription configurations.
+Documentation (Basic User & Developer): User documentation for using the bot and developer documentation outlining the bot's architecture.
+Basic User Configuration: Implementation of customization options to filter and tailor alerts.
+Additional Slash Commands: Implementation of slash commands to expand user control and provide bot interactions.
+Testing: Unit and integration tests to ensure reliability and stability of the core features.
+Interactive Messages: Implementation of interactive elements within alert messages to enhance user engagement.
+Recommendations: Implementation of the ability for the bot to provide proactive recommendations based on health metrics.
+Rate Limiting: Implementation of rate limiting to ensure the bot adheres to Slack API limits.
