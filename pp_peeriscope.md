@@ -267,3 +267,52 @@
         * GitHub's API capabilities are sufficient for the required interactions.
         * Access to Gemini API (or a similar LLM) and Slack API is available and approved.
     * **Outro:** PEERiscope is not just a bot; it's an investment in a culture of excellence for code review. By providing intelligent assistance and gentle nudges, it will empower senior engineers to elevate their feedback, leading to more robust code, accelerated learning for all developers, and a more collaborative and effective engineering organization.
+ 
+---
+
+You're right to point that out! An "easily installable" GitHub App doesn't just appear. The initial steps of defining, registering, and setting up the basic infrastructure for the app are crucial.
+
+Let's expand on **Epic 1** for the PEERiscope project plan to include these foundational steps. I'll keep the rest of the project plan structure from our previous discussion intact and just replace the content for Epic 1.
+
+---
+
+**Revised Section for the PEERiscope Project Plan:**
+
+* **Business Requirements (Epics & Stories):**
+
+    * **Epic 1: PEERiscope GitHub App Creation, Registration, and Initial Service Setup**
+        * *Goal:* To successfully register PEERiscope as a new GitHub App within the Capital One organization, configure its fundamental properties and permissions, establish the initial webhook handling infrastructure, and make the app ready for internal development, testing, and eventual installation on pilot repositories.
+        * User Story 1.1 (Developer/Platform Engineer): As the PEERiscope Development Team, I need to register a new GitHub App under the Capital One organization (or a designated development organization) by defining its name ("PEERiscope"), description, and a placeholder homepage URL.
+            * *How:* This involves navigating to GitHub organization settings -> Developer settings -> GitHub Apps -> "New GitHub App".
+        * User Story 1.2 (Developer/Platform Engineer): As the PEERiscope Development Team, I need to configure the initial set of permissions for the GitHub App, including read access to code & metadata, read/write access to pull requests & issues (for comments/status), read access to `CODEOWNERS`, and write access to commit statuses.
+            * *How:* During app registration, meticulously select the necessary "Repository permissions" and "Organization permissions" based on the app's intended functionality, adhering to the principle of least privilege.
+        * User Story 1.3 (Developer/Platform Engineer): As the PEERiscope Development Team, I need to subscribe the GitHub App to essential webhook events, such as `pull_request` (opened, synchronize, closed), `pull_request_review` (submitted), `pull_request_review_comment` (created), and `issue_comment` (for potential commands).
+            * *How:* In the app's settings, specify a "Webhook URL" (initially a local development URL forwarded by a tool like Smee.io or ngrok, later a deployed endpoint) and select the specific events the app needs to process. A "Webhook secret" should also be generated and stored securely.
+        * User Story 1.4 (Developer/Platform Engineer): As the PEERiscope Development Team, I need to generate and securely store the GitHub App's credentials, including the App ID, Client ID, Client Secret (if web flow is ever needed, less likely for a bot), and most importantly, generate and download a private key for server-to-server authentication.
+            * *How:* These are provided upon app registration. The private key (`.pem` file) is critical and must be stored securely (e.g., in a secrets manager for deployed environments, and handled carefully in development).
+        * User Story 1.5 (Developer/Backend Engineer): As the PEERiscope Development Team, I need to develop a basic webhook event handler service (e.g., using Node.js with Probot, or Python with Flask/FastAPI) that can receive, verify (using the webhook secret), and acknowledge incoming webhook events from GitHub for the subscribed events.
+            * *How:* Choose a tech stack (Probot is excellent for this). Implement an HTTP endpoint that listens for POST requests from GitHub. Use a library to validate the signature. For initial setup, this handler might just log received events.
+        * User Story 1.6 (Developer/Platform Engineer): As the PEERiscope Development Team, I need to set up a local development environment that allows testing the webhook handler by forwarding GitHub webhooks to my local machine (e.g., using Smee.io or ngrok).
+            * *How:* Configure the GitHub App's webhook URL to point to the Smee/ngrok public URL, which then forwards to the local development server.
+        * User Story 1.7 (Developer/Platform Engineer): As the PEERiscope Development Team, I need to make the GitHub App "installable" (initially perhaps only within the organization or by specific admins/testers) so that its core event receiving and authentication logic can be tested against a real repository.
+            * *How:* The app can be kept "private" initially and installed on test repositories owned by the development team or a pilot group. Later, it can be made public within the organization or even to all of GitHub if intended.
+        * User Story 1.8 (Repository Admin - *formerly 1.1*): As a Repository Admin (once the app is created and shared for testing), I want to easily install the PEERiscope GitHub App on my pilot repository so that it can start receiving events for monitoring pull requests.
+        * User Story 1.9 (Repository Admin - *formerly 1.2*): As a Repository Admin, upon installing PEERiscope, I want to receive initial guidance (e.g., an automated welcome comment on a test PR, or link to basic setup docs) on how to create/update a `CODEOWNERS` file to define a `@lead-reviewers` group.
+        * User Story 1.10 (Repository Admin - *formerly 1.3*): As a Repository Admin, I want PEERiscope (once basic event processing is working) to check my branch protection rules and advise me on how to configure them to require 1 approval from `@lead-reviewers` (via `CODEOWNERS`) and 1 approval from the PEERiscope bot (as a required status check).
+        * User Story 1.11 (Repository Admin - *formerly 1.4*): As a Repository Admin, I want to create a `.github/peeriscope.yml` configuration file in my repository to begin customizing PEERiscope's behavior (even if only a few basic options are supported initially).
+
+    * **Epic 2: Core PR Monitoring & Review Triggering Logic**
+        * *Goal:* (Remains the same) To establish the bot's ability to monitor PRs, identify relevant lead reviewer actions, and correctly apply filtering logic before initiating a helpfulness assessment.
+        * (User Stories 2.1 - 2.4 would follow as previously defined)
+
+    * **Epic 3: Review Comment Helpfulness Assessment**
+        * *Goal:* (Remains the same) To implement the core logic for assessing the helpfulness of a lead reviewer's comments, offering both simple, code-based checks and advanced LLM-powered analysis.
+        * (User Stories 3.1 - 3.5 would follow as previously defined)
+
+    * **Epic 4: Automated PR Status Update & Feedback Loop**
+        * *Goal:* (Remains the same) To enable PEERiscope to provide automated feedback on PRs by either approving them or requesting further clarification from the lead reviewer based on the helpfulness score.
+        * (User Stories 4.1 - 4.3 would follow as previously defined)
+
+    * **Epic 5: Slack Notifications & User Guidance**
+        * *Goal:* (Remains the same) To keep relevant stakeholders informed about PEERiscope's activities via Slack and provide comprehensive documentation for users.
+        * (User Stories 5.1 - 5.2 would follow as previously defined)
