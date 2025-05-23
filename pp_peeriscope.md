@@ -310,3 +310,46 @@
     * **Epic 5: Slack Notifications & User Guidance**
         * *Goal:* (Remains the same) To keep relevant stakeholders informed about PEERiscope's activities via Slack and provide comprehensive documentation for users.
         * (User Stories 5.1 - 5.2 would follow as previously defined)
+          
+---
+
+**Revised Section for the PEERiscope Project Plan:**
+
+* **Business Requirements (Epics & Stories):**
+
+    * **Epic 1: PEERiscope GitHub App Creation, Registration, and Initial Service Setup**
+        * *Goal:* To successfully register PEERiscope as a new GitHub App within the Capital One organization, configure its fundamental properties and permissions, establish the initial webhook handling infrastructure, and make the app ready for internal development, testing, and eventual installation on pilot repositories.
+        * User Story 1.1 (Developer/Platform Engineer): As the PEERiscope Development Team, I need to register a new GitHub App under the Capital One organization (or a designated development organization) by defining its name ("PEERiscope"), description, and a placeholder homepage URL.
+        * User Story 1.2 (Developer/Platform Engineer): As the PEERiscope Development Team, I need to configure the initial set of permissions for the GitHub App, including read access to code & metadata, read/write access to pull requests & issues (for comments/status), read access to `CODEOWNERS`, and write access to commit statuses.
+        * User Story 1.3 (Developer/Platform Engineer): As the PEERiscope Development Team, I need to subscribe the GitHub App to essential webhook events, such as `pull_request` (opened, synchronize, closed), `pull_request_review` (submitted), `pull_request_review_comment` (created), and `issue_comment` (for potential commands).
+        * User Story 1.4 (Developer/Platform Engineer): As the PEERiscope Development Team, I need to generate and securely store the GitHub App's credentials, including the App ID, Client ID, Client Secret (if web flow is ever needed, less likely for a bot), and most importantly, generate and download a private key for server-to-server authentication.
+        * User Story 1.5 (Developer/Backend Engineer): As the PEERiscope Development Team, I need to develop a basic webhook event handler service (e.g., using Node.js with Probot, or Python with Flask/FastAPI) that can receive, verify (using the webhook secret), and acknowledge incoming webhook events from GitHub for the subscribed events.
+        * User Story 1.6 (Developer/Platform Engineer): As the PEERiscope Development Team, I need to set up a local development environment that allows testing the webhook handler by forwarding GitHub webhooks to my local machine (e.g., using Smee.io or ngrok).
+        * User Story 1.7 (Developer/Platform Engineer): As the PEERiscope Development Team, I need to make the GitHub App "installable" (initially perhaps only within the organization or by specific admins/testers) so that its core event receiving and authentication logic can be tested against a real repository.
+        * User Story 1.8 (Repository Admin): As a Repository Admin (once the app is created and shared for testing), I want to easily install the PEERiscope GitHub App on my pilot repository so that it can start receiving events for monitoring pull requests.
+        * User Story 1.9 (Repository Admin): As a Repository Admin, upon installing PEERiscope, I want to receive initial guidance (e.g., an automated welcome comment on a test PR, or link to basic setup docs) on how to create/update a `CODEOWNERS` file to define a `@lead-reviewers` group.
+        * User Story 1.10 (Repository Admin): As a Repository Admin, I want PEERiscope (once basic event processing is working) to check my branch protection rules and advise me on how to configure them to require 1 approval from `@lead-reviewers` (via `CODEOWNERS`) and 1 approval from the PEERiscope bot (as a required status check).
+        * User Story 1.11 (Repository Admin): As a Repository Admin, I want to create a `.github/peeriscope.yml` configuration file in my repository to begin customizing PEERiscope's behavior (even if only a few basic options are supported initially).
+
+    * **Epic 2: Core PR Monitoring & Review Triggering Logic**
+        * *Goal:* To establish the bot's ability to monitor PRs, identify relevant lead reviewer actions, and correctly apply filtering logic before initiating a helpfulness assessment.
+        * (User Stories 2.1 - 2.4 would follow as previously defined)
+
+    * **Epic 3: Review Comment Helpfulness Assessment**
+        * *Goal:* To implement the core logic for assessing the helpfulness of a lead reviewer's comments, offering both simple, code-based checks and advanced LLM-powered analysis.
+        * (User Stories 3.1 - 3.5 would follow as previously defined)
+
+    * **Epic 4: Automated PR Status Update & Feedback Loop**
+        * *Goal:* To enable PEERiscope to provide automated feedback on PRs by either approving them or requesting further clarification from the lead reviewer based on the helpfulness score.
+        * (User Stories 4.1 - 4.3 would follow as previously defined)
+
+    * **Epic 5: Slack Integration, Notifications & User Guidance**
+        * *Goal:* To integrate PEERiscope with Slack for real-time status notifications, configure this integration securely, and provide comprehensive documentation for all aspects of the application.
+        * User Story 5.1 (Developer/Backend Engineer): As the PEERiscope Development Team, I need to implement functionality within the GitHub App's backend service to send formatted messages to the Slack API using a Slack Bot Token or Incoming Webhook URL.
+            * *How:* This involves choosing a Slack SDK (e.g., `@slack/bolt` for Node.js, `slack_sdk` for Python) or making direct HTTP requests. The service will need to construct message payloads (using Slack's Block Kit for rich formatting is recommended).
+        * User Story 5.2 (Developer/Platform Engineer): As the PEERiscope Development Team, I need to define a secure method for storing and accessing the Slack Bot Token or Webhook URL required for sending notifications (e.g., as an environment variable in the deployed service, managed via a secrets manager).
+            * *How:* Similar to the Gemini API key, this token is sensitive and should not be hardcoded. It will be configured in the hosting environment of the PEERiscope backend service.
+        * User Story 5.3 (Repository Admin): As a Repository Admin, I want to specify a `slackChannelId` (or Slack Webhook URL for simpler setup) in the `.github/peeriscope.yml` configuration file so that PEERiscope notifications for my repository are routed to the correct team channel.
+        * User Story 5.4 (PEERiscope Bot - *formerly 5.1*): As the PEERiscope Bot, I need to send notifications to the configured Slack channel (identified by `slackChannelId` or using the Webhook URL from `peeriscope.yml`) indicating my current status for a PR (e.g., "Lead reviewer approval detected on PR #123, assessing helpfulness...", "Helpfulness score for PR #123 review: 75/100. Approving.", "Helpfulness score for PR #123 review: 30/100. Requesting more details from @reviewer.").
+            * *How:* The backend service, upon completing a phase of its logic (e.g., after assessment, before approving/commenting on GitHub), will call the Slack API with a pre-defined message format. Messages should include links back to the PR.
+        * User Story 5.5 (Developer/Repository Admin - *formerly 5.2*): As a Developer/Repository Admin, I want access to a comprehensive user guide that explains how to install PEERiscope, configure all `.github/peeriscope.yml` options (including Slack integration and troubleshooting), and use the app effectively, along with best practices for meaningful reviews.
