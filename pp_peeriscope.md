@@ -270,12 +270,6 @@
  
 ---
 
-You're right to point that out! An "easily installable" GitHub App doesn't just appear. The initial steps of defining, registering, and setting up the basic infrastructure for the app are crucial.
-
-Let's expand on **Epic 1** for the PEERiscope project plan to include these foundational steps. I'll keep the rest of the project plan structure from our previous discussion intact and just replace the content for Epic 1.
-
----
-
 **Revised Section for the PEERiscope Project Plan:**
 
 * **Business Requirements (Epics & Stories):**
